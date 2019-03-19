@@ -1,5 +1,6 @@
 package edu.ciit.ciit_library_app.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.Result;
 
+import java.util.HashMap;
+
 import edu.ciit.ciit_library_app.Main_Menu.MainMenu;
 import edu.ciit.ciit_library_app.Models.BookShelf;
 import edu.ciit.ciit_library_app.R;
@@ -21,6 +24,12 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
+
+    //Student Informations
+    private String studentName;
+    private String studentEmail;
+    private String studentSection;
+    //
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference BookBorrowed = db.collection("Book_Borrowed");
@@ -61,7 +70,18 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
                         BookShelf sendBorrowedBook = new BookShelf(bookShelf.getTitle(), bookShelf.getGenre(), bookShelf.getId());
 
-                        BookBorrowed.add(sendBorrowedBook).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        getStudentInfo();
+                        HashMap<String, Object> borrowedBook = new HashMap<>();
+
+                        borrowedBook.put("title", bookShelf.getTitle());
+                        borrowedBook.put("genre", bookShelf.getGenre());
+                        borrowedBook.put("description", bookShelf.getDescription());
+                        borrowedBook.put("id", bookShelf.getId());
+                        borrowedBook.put("name", studentName);
+                        borrowedBook.put("email", studentEmail);
+                        borrowedBook.put("section", studentSection);
+
+                        BookBorrowed.add(borrowedBook).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 MainMenu.BookTitles.document(queryDocumentSnapshot.getId()).delete();
@@ -79,5 +99,13 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         });
 
         onBackPressed();
+    }
+
+    public void getStudentInfo() {
+        Intent i = getIntent();
+        Bundle bundle = i.getBundleExtra("studentInfo");
+        studentName = bundle.getString("name");
+        studentEmail = bundle.getString("email");
+        studentSection = bundle.getString("section");
     }
 }

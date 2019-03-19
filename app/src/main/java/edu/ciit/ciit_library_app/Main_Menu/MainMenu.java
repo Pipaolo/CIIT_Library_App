@@ -66,6 +66,12 @@ public class MainMenu extends AppCompatActivity
     private GenreAdapter mAdapter;
     //
 
+    //Student Informations
+    private String studentName;
+    private String studentEmail;
+    private String studentSection;
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +116,8 @@ public class MainMenu extends AppCompatActivity
     }
 
     private void updateui(String studentSection) {
-        FirebaseUser student = FirebaseAuth.getInstance().getCurrentUser();
 
+        FirebaseUser student = FirebaseAuth.getInstance().getCurrentUser();
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         Uri profileImage = student.getPhotoUrl();
@@ -156,7 +162,6 @@ public class MainMenu extends AppCompatActivity
         mRecyclerView.setAdapter(mAdapter);
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -199,6 +204,14 @@ public class MainMenu extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_borrow) {
             Intent intent = new Intent(this, ScanActivity.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("name", studentName);
+            bundle.putString("email", studentEmail);
+            bundle.putString("section", studentSection);
+
+            intent.putExtra("studentInfo", bundle);
+
             startActivity(intent);
         } else if (id == R.id.nav_returned) {
 

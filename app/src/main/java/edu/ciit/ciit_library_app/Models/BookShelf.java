@@ -1,6 +1,7 @@
 package edu.ciit.ciit_library_app.Models;
 
 public class BookShelf {
+    private String description;
     private String title;
     private String genre;
     private int id;
@@ -12,6 +13,14 @@ public class BookShelf {
         this.title = bookTitle;
         this.genre = bookGenre;
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getId() {
