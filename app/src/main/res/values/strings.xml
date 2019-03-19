@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">CIIT Library App</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Name</string>
+    <string name="nav_header_subtitle">Section</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="sectionList">
+        <item>Choose your Section…</item>
+        <item>11 - Hue</item>
+        <item>11 - Pattern</item>
+        <item>11 - Python</item>
+        <item>11 - Symmetry</item>
+        <item>11 - Unity</item>
+        <item>11 - Variety</item>
+        <item>11 - Vision</item>
+        <item>12 - Balance</item>
+        <item>12 - Harmony</item>
+        <item>12 - Java</item>
+        <item>12 - Maya</item>
+        <item>12 - Rhythm</item>
+    </string-array>
+
+</resources>
