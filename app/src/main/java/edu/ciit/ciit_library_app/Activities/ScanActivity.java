@@ -32,7 +32,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     //
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference BookBorrowed = db.collection("Book_Borrowed");
+    CollectionReference BookBorrowed = db.collection("Pending_Books");
     private ZXingScannerView mScannerView;
 
     @Override
@@ -68,7 +68,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                     int bookId = (bookShelf.getId());
                     if (Integer.toString(bookId).equals(result.getText())) {
 
-                        BookShelf sendBorrowedBook = new BookShelf(bookShelf.getTitle(), bookShelf.getGenre(), bookShelf.getId());
 
                         getStudentInfo();
                         HashMap<String, Object> borrowedBook = new HashMap<>();
@@ -80,6 +79,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                         borrowedBook.put("name", studentName);
                         borrowedBook.put("email", studentEmail);
                         borrowedBook.put("section", studentSection);
+                        borrowedBook.put("isBorrowed", false);
 
                         BookBorrowed.add(borrowedBook).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -97,15 +97,13 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
                 }
             }
         });
-
         onBackPressed();
     }
 
     public void getStudentInfo() {
-        Intent i = getIntent();
-        Bundle bundle = i.getBundleExtra("studentInfo");
-        studentName = bundle.getString("name");
-        studentEmail = bundle.getString("email");
-        studentSection = bundle.getString("section");
+        Bundle extras = getIntent().getExtras();
+        studentName = extras.getString("name");
+        studentSection = extras.getString("section");
+        studentEmail = extras.getString("email");
     }
 }

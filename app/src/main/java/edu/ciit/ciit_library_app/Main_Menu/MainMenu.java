@@ -83,6 +83,7 @@ public class MainMenu extends AppCompatActivity
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AboutDialog));
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_spinner, null);
         mBuilder.setTitle("Choose Section");
+
         final Spinner mSpinner = (Spinner) dialogView.findViewById(R.id.spinner_SectionsMenu);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.spinner_layout, getResources().getStringArray(R.array.sectionList));
@@ -115,7 +116,7 @@ public class MainMenu extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void updateui(String studentSection) {
+    private void updateui(String section) {
 
         FirebaseUser student = FirebaseAuth.getInstance().getCurrentUser();
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -144,6 +145,9 @@ public class MainMenu extends AppCompatActivity
         navStudentSection.setText(studentSection);
         navStudentName.setText(student.getDisplayName());
 
+        studentName = student.getDisplayName();
+        studentEmail = student.getEmail();
+        studentSection = section;
     }
 
     private void setUpRecyclerView() {
@@ -204,15 +208,11 @@ public class MainMenu extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_borrow) {
             Intent intent = new Intent(this, ScanActivity.class);
-
-            Bundle bundle = new Bundle();
-            bundle.putString("name", studentName);
-            bundle.putString("email", studentEmail);
-            bundle.putString("section", studentSection);
-
-            intent.putExtra("studentInfo", bundle);
-
+            intent.putExtra("name", studentName);
+            intent.putExtra("email", studentEmail);
+            intent.putExtra("section", studentSection);
             startActivity(intent);
+
         } else if (id == R.id.nav_returned) {
 
         } else if (id == R.id.nav_signOut) {
